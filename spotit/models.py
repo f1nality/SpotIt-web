@@ -17,7 +17,7 @@ class Post(models.Model):
 
     class Meta:
         verbose_name = u'пост'
-        verbose_name_plural = u'пост'
+        verbose_name_plural = u'посты'
         ordering = ['-date_add']
 
     def __unicode__(self):
