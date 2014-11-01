@@ -1,3 +1,4 @@
+# encoding: utf-8
 from rest_framework import serializers
 from core.models import User
 from spotit.models import Post, PostComment
@@ -10,7 +11,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
-    author = serializers.PrimaryKeyRelatedField()
+    author = serializers.PrimaryKeyRelatedField(label=u'Автор')
 
     class Meta:
         model = Post
@@ -35,8 +36,8 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PostCommentSerializer(serializers.HyperlinkedModelSerializer):
-    post = serializers.PrimaryKeyRelatedField()
-    author = serializers.PrimaryKeyRelatedField()
+    post = serializers.PrimaryKeyRelatedField(label=u'Пост')
+    author = serializers.PrimaryKeyRelatedField(label=u'Автор')
 
     class Meta:
         model = PostComment
