@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from ConfigParser import RawConfigParser
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -26,6 +27,20 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+### CONFIG ####
+
+config = RawConfigParser()
+
+PROJECT_NAME = 'spotit'
+
+production_config = os.path.join('/etc', PROJECT_NAME, '{0}.conf'.format(PROJECT_NAME))
+development_config = os.path.join(BASE_DIR, 'conf', '{0}.conf'.format(PROJECT_NAME))
+
+config_path = production_config if os.path.exists(production_config) else development_config
+config.read(config_path)
+
+### CONFIG ####
+
 
 # Application definition
 
@@ -37,6 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'spotit',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,17 +74,23 @@ WSGI_APPLICATION = 'application.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': config.get('database', 'ENGINE'),
+        'NAME': config.get('database', 'NAME'),
+        'USER': config.get('database', 'USER'),
+        'PASSWORD': config.get('database', 'PASSWORD'),
+        'HOST': config.get('database', 'HOST'),
+        'PORT': config.get('database', 'PORT'),
+        'OPTIONS': {'charset': 'utf8', },
+        'TEST_CHARSET': 'utf8',
     }
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru_RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -85,3 +107,12 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
+
+### AUTH ###
+
+AUTH_USER_MODEL = 'core.User'
+AUTHENTICATION_BACKENDS = (
+    'core.auth.backends.EmailAuthBackend',
+)
+
+### AUTH ###
