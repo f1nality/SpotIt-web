@@ -26,6 +26,12 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
             'latitude',
             'longitude'
         )
+        read_only_fields = (
+            'date_add',
+            'rating',
+            'count_vote',
+            'count_comments'
+        )
 
 
 class PostCommentSerializer(serializers.HyperlinkedModelSerializer):
@@ -45,4 +51,10 @@ class PostCommentSerializer(serializers.HyperlinkedModelSerializer):
             'deleted',
             'latitude',
             'longitude'
+        )
+        read_only_fields = (
+            'date_add',
+            'rating',
+            'count_vote',
+            'deleted'
         )
