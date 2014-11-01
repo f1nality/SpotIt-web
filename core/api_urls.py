@@ -1,10 +1,11 @@
 from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from spotit.views import UserList, UserDetail, PostList, PostCommentDetail, PostCommentList, PostDetail
+from core.views import UserList, UserDetail, api_root
+from spotit.views import PostList, PostCommentDetail, PostCommentList, PostDetail
 
 
 urlpatterns = patterns('',
-    url(r'^$', 'spotit.views.api_root'),
+    url(r'^$', api_root),
     url(r'^users/$', UserList.as_view(), name='user-list'),
     url(r'^users/(?P<pk>\d+)/$', UserDetail.as_view(), name='user-detail'),
     url(r'^posts/$', PostList.as_view(), name='post-list'),

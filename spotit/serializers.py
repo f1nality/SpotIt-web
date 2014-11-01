@@ -4,12 +4,6 @@ from core.models import User
 from spotit.models import Post, PostComment
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email')
-
-
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.PrimaryKeyRelatedField(label=u'Автор')
 
