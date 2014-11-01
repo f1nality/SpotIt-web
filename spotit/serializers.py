@@ -14,7 +14,18 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'author', 'text', 'date_add', 'author_ip', 'rating', 'count_vote', 'count_comments')
+        fields = (
+            'id',
+            'author',
+            'text',
+            'date_add',
+            'author_ip',
+            'rating',
+            'count_vote',
+            'count_comments',
+            'latitude',
+            'longitude'
+        )
 
 
 class PostCommentSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,4 +34,15 @@ class PostCommentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = PostComment
-        fields = ('post', 'author', 'text', 'date_add', 'author_ip', 'rating', 'count_vote', 'deleted')
+        fields = (
+            'post',
+            'author',
+            'text',
+            'date_add',
+            'author_ip',
+            'rating',
+            'count_vote',
+            'deleted',
+            'latitude',
+            'longitude'
+        )

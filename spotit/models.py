@@ -12,6 +12,8 @@ class Post(models.Model):
     rating = models.FloatField(default=0, verbose_name=u'Рейтинг')
     count_vote = models.IntegerField(default=0, verbose_name=u'Количество проголосоваваших')
     count_comments = models.IntegerField(default=0, verbose_name=u'Количество комментариев')
+    latitude = models.FloatField(verbose_name=u'Широта')
+    longitude = models.FloatField(verbose_name=u'Долгота')
 
     class Meta:
         verbose_name = u'пост'
@@ -33,6 +35,8 @@ class PostComment(models.Model):
     rating = models.FloatField(default=0, verbose_name=u'Рейтинг')
     count_vote = models.IntegerField(default=0, verbose_name=u'Количество проголосоваваших')
     deleted = models.BooleanField(default=False, verbose_name=u'Удален')
+    latitude = models.FloatField(verbose_name=u'Широта')
+    longitude = models.FloatField(verbose_name=u'Долгота')
 
     class Meta:
         verbose_name = u'комментарий'
