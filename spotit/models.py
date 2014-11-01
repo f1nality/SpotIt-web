@@ -14,8 +14,8 @@ class Post(models.Model):
     count_comments = models.IntegerField(default=0, verbose_name=u'Количество комментариев')
 
     class Meta:
-        verbose_name = u'блог'
-        verbose_name_plural = u'блоги'
+        verbose_name = u'пост'
+        verbose_name_plural = u'пост'
         ordering = ['-date_add']
 
     def __unicode__(self):
