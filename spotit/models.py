@@ -55,3 +55,6 @@ class PostComment(models.Model):
             return rating.vote
         else:
             return None
+
+
+from spotit import signals
