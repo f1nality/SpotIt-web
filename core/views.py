@@ -15,6 +15,7 @@ def api_root(request, format=None):
     return Response({
         'users': reverse('user-list', request=request),
         'posts': reverse('post-list', request=request),
+        'posts-photos': reverse('post-photo-list', request=request),
         'posts-comments': reverse('post-comment-list', request=request),
         'posts-ratings': reverse('post-rating-list', request=request),
         'posts-comments-ratings': reverse('post-comment-rating-list', request=request),

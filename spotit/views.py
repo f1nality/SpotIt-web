@@ -1,6 +1,7 @@
 from rest_framework import generics
-from serializers import PostSerializer, PostCommentSerializer, PostUserRatingSerializer, PostCommentUserRatingSerializer
-from spotit.models import Post, PostComment, PostCommentUserRating, PostUserRating
+from serializers import PostSerializer, PostCommentSerializer, PostUserRatingSerializer, PostCommentUserRatingSerializer, \
+    PostPhotoSerializer
+from spotit.models import Post, PostComment, PostCommentUserRating, PostUserRating, PostPhoto
 
 
 class PostList(generics.ListCreateAPIView):
@@ -72,6 +73,28 @@ class PostCommentDetail(generics.RetrieveUpdateDestroyAPIView):
         'longitude'
     )
 
+
+class PostPhotoList(generics.ListCreateAPIView):
+    model = PostPhoto
+    serializer_class = PostPhotoSerializer
+    filter_fields = (
+        'id',
+        'post',
+        'image',
+        'date_add',
+    )
+    ordering_fields = '__all__'
+
+
+class PostPhotoDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = PostPhoto
+    serializer_class = PostPhotoSerializer
+    filter_fields = (
+        'id',
+        'post',
+        'image',
+        'date_add',
+    )
 
 class PostUserRatingList(generics.ListCreateAPIView):
     model = PostUserRating

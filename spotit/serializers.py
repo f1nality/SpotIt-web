@@ -1,7 +1,7 @@
 # encoding: utf-8
 from rest_framework import serializers
 from core.models import User
-from spotit.models import Post, PostComment, PostUserRating, PostCommentUserRating
+from spotit.models import Post, PostComment, PostUserRating, PostCommentUserRating, PostPhoto
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
@@ -59,7 +59,7 @@ class PostPhotoSerializer(serializers.HyperlinkedModelSerializer):
     post = serializers.PrimaryKeyRelatedField(label=u'Пост')
 
     class Meta:
-        model = Post
+        model = PostPhoto
         fields = (
             'id',
             'post',
@@ -68,8 +68,6 @@ class PostPhotoSerializer(serializers.HyperlinkedModelSerializer):
 
         )
         read_only_fields = (
-            'post',
-            'image',
             'date_add',
         )
 
@@ -85,7 +83,9 @@ class PostUserRatingSerializer(serializers.HyperlinkedModelSerializer):
             'user',
             'vote',
             'date',
-
+        )
+        read_only_fields = (
+            'date',
         )
 
 
@@ -100,5 +100,7 @@ class PostCommentUserRatingSerializer(serializers.HyperlinkedModelSerializer):
             'user',
             'vote',
             'date',
-
+        )
+        read_only_fields = (
+            'date',
         )
