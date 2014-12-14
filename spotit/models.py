@@ -26,6 +26,22 @@ class Post(models.Model):
         )
 
 
+class PostPhoto(models.Model):
+    post = models.ForeignKey(Post, verbose_name=u'Пост', related_name='photos')
+    image = models.ImageField(verbose_name=u'Картинка', upload_to='post_photos/')
+    date_add = models.DateTimeField(verbose_name=u'Дата создания', default=timezone.now())
+
+    class Meta:
+        verbose_name = u'фото поста'
+        verbose_name_plural = u'фото постов'
+        ordering = ['-date_add']
+
+    def __unicode__(self):
+        return u'Фото поста {0}'.format(
+            self.post
+        )
+
+
 class PostComment(models.Model):
     post = models.ForeignKey(Post, verbose_name=u'Пост', related_name='comments')
     author = models.ForeignKey(User, verbose_name=u'Автор', related_name='post_comments')
@@ -55,6 +71,40 @@ class PostComment(models.Model):
             return rating.vote
         else:
             return None
+
+
+class PostUserRating(models.Model):
+    post = models.ForeignKey(Post, verbose_name=u'Пост', related_name='ratings')
+    user = models.ForeignKey(User, verbose_name=u'Автор', related_name='post_ratings')
+    vote = models.IntegerField(verbose_name=u'Изменение рейтинга')
+    date = models.DateTimeField(verbose_name=u'Дата', default=timezone.now)
+
+    class Meta:
+        verbose_name = u'рейтинг поста'
+        verbose_name_plural = u'рейтинги постов'
+
+    def __unicode__(self):
+        return u'Рейтинг {0} пользователя {1}'.format(
+            self.post,
+            self.user
+        )
+
+
+class PostCommentUserRating(models.Model):
+    post_comment = models.ForeignKey(PostComment, verbose_name=u'Пост', related_name='ratings')
+    user = models.ForeignKey(User, verbose_name=u'Автор', related_name='post_comment_ratings')
+    vote = models.IntegerField(verbose_name=u'Изменение рейтинга')
+    date = models.DateTimeField(verbose_name=u'Дата', default=timezone.now)
+
+    class Meta:
+        verbose_name = u'рейтинг комментария'
+        verbose_name_plural = u'рейтинги комментариев'
+
+    def __unicode__(self):
+        return u'Рейтинг {0} пользователя {1}'.format(
+            self.post_comment,
+            self.user
+        )
 
 
 from spotit import signals

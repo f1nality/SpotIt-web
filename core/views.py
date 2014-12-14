@@ -16,15 +16,19 @@ def api_root(request, format=None):
         'users': reverse('user-list', request=request),
         'posts': reverse('post-list', request=request),
         'posts-comments': reverse('post-comment-list', request=request),
+        'posts-ratings': reverse('post-rating-list', request=request),
+        'posts-comments-ratings': reverse('post-comment-rating-list', request=request),
     })
 
 
 class UserList(generics.ListCreateAPIView):
     model = User
     serializer_class = UserSerializer
-    # filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'photo')
+    ordering_fields = '__all__'
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     model = User
     serializer_class = UserSerializer
+    filter_fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'photo')

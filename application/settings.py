@@ -58,6 +58,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework.filters',
+    'south',
     'core',
     'spotit',
 )
@@ -138,6 +140,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'rest_framework.filters.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
     )
 }
 

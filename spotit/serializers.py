@@ -1,7 +1,7 @@
 # encoding: utf-8
 from rest_framework import serializers
 from core.models import User
-from spotit.models import Post, PostComment
+from spotit.models import Post, PostComment, PostUserRating, PostCommentUserRating
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
@@ -52,4 +52,53 @@ class PostCommentSerializer(serializers.HyperlinkedModelSerializer):
             'rating',
             'count_vote',
             'deleted'
+        )
+
+
+class PostPhotoSerializer(serializers.HyperlinkedModelSerializer):
+    post = serializers.PrimaryKeyRelatedField(label=u'Пост')
+
+    class Meta:
+        model = Post
+        fields = (
+            'id',
+            'post',
+            'image',
+            'date_add',
+
+        )
+        read_only_fields = (
+            'post',
+            'image',
+            'date_add',
+        )
+
+
+class PostUserRatingSerializer(serializers.HyperlinkedModelSerializer):
+    post = serializers.PrimaryKeyRelatedField(label=u'Пост')
+
+    class Meta:
+        model = PostUserRating
+        fields = (
+            'id',
+            'post',
+            'user',
+            'vote',
+            'date',
+
+        )
+
+
+class PostCommentUserRatingSerializer(serializers.HyperlinkedModelSerializer):
+    post_comment = serializers.PrimaryKeyRelatedField(label=u'Комментарий')
+
+    class Meta:
+        model = PostCommentUserRating
+        fields = (
+            'id',
+            'post_comment',
+            'user',
+            'vote',
+            'date',
+
         )

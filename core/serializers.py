@@ -7,7 +7,7 @@ from core.models import User
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
+        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'photo')
 
     def restore_object(self, attrs, instance=None):
         attrs['password'] = make_password(attrs['password'])
