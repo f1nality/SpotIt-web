@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework.filters',
     'south',
+    'push_notifications',
     'core',
     'spotit',
 )
@@ -145,3 +146,13 @@ REST_FRAMEWORK = {
 }
 
 ### REST_FRAMEWORK ###
+
+### DJANGO PUSH NOTIFICATIONS ###
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+    "GCM_API_KEY": "AIzaSyBzT44HHTZvUWkVNAXYRcNuYq9KtfjWEN4",
+    # "APNS_CERTIFICATE": "/path/to/your/certificate.pem",
+}
+SOUTH_MIGRATION_MODULES = {"push_notifications": "push_notifications.south_migrations"}
+
+### DJANGO PUSH NOTIFICATIONS ###

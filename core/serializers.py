@@ -1,7 +1,8 @@
 # encoding: utf-8
 from django.contrib.auth.hashers import make_password
+from push_notifications.models import GCMDevice
 from rest_framework import serializers
-from core.models import User, Device
+from core.models import User
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -14,18 +15,20 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return super(UserSerializer, self).restore_object(attrs, instance=None)
 
 
-class DeviceSerializer(serializers.HyperlinkedModelSerializer):
+class GCMDeviceSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(label=u'Пользователь')
 
     class Meta:
-        model = Device
+        model = GCMDevice
         fields = (
             'id',
-            'user',
             'name',
-            'unique_id',
-            'date_add',
+            'active',
+            'user',
+            'date_created',
+            'device_id',
+            'registration_id',
         )
         read_only_fields = (
-            'date_add',
+            'active',
         )

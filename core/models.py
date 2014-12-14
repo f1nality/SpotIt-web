@@ -27,13 +27,3 @@ class User(AbstractUser):
         if self.first_name:
             return self.first_name + ' ' + self.last_name
         return self.email
-
-
-class Device(models.Model):
-    user = models.ForeignKey(User, verbose_name=u'Пользователь', related_name='devices')
-    name = models.CharField(verbose_name=u'Имя устройства', max_length=255)
-    unique_id = models.CharField(verbose_name=u'Уникальный ID', max_length=255, unique=True)
-    date_add = models.DateTimeField(verbose_name=u'Дата добавления', default=timezone.now)
-
-    def __unicode__(self):
-        return self.name + ' ' + self.user

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from push_notifications.models import GCMDevice
 from rest_framework import filters
 from rest_framework import generics
 from rest_framework.decorators import api_view
@@ -6,8 +7,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from core.models import User, Device
-from core.serializers import UserSerializer, DeviceSerializer
+from core.models import User
+from core.serializers import UserSerializer, GCMDeviceSerializer
 
 
 @api_view(['GET'])
@@ -49,13 +50,13 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class DeviceList(generics.ListCreateAPIView):
-    model = Device
-    serializer_class = DeviceSerializer
-    filter_fields = ('id', 'user', 'name', 'unique_id', 'date_add',)
+    model = GCMDevice
+    serializer_class = GCMDeviceSerializer
+    filter_fields = ('id', 'name', 'active', 'user', 'date_created', 'device_id', 'registration_id',)
     ordering_fields = '__all__'
 
 
 class DeviceDetail(generics.RetrieveUpdateDestroyAPIView):
-    model = Device
-    serializer_class = DeviceSerializer
-    filter_fields = ('id', 'user', 'name', 'unique_id', 'date_add',)
+    model = GCMDevice
+    serializer_class = GCMDeviceSerializer
+    filter_fields = ('id', 'name', 'active', 'user', 'date_created', 'device_id', 'registration_id',)
