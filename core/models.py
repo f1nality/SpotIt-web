@@ -1,6 +1,7 @@
 # encoding: utf-8
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -13,6 +14,7 @@ class User(AbstractUser):
     sex = models.CharField(blank=True, null=True, max_length=1, verbose_name=u'Пол', choices=SEX_CHOICES)
     phone_number = models.CharField(blank=True, null=True, verbose_name=u'Телефон', max_length=255)
     photo = models.ImageField(verbose_name=u'', upload_to='user_photos/', null=True, blank=True, default=None)
+    device_id = models.CharField(blank=True, null=True, verbose_name=u'Телефон', max_length=255)
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
@@ -25,3 +27,13 @@ class User(AbstractUser):
         if self.first_name:
             return self.first_name + ' ' + self.last_name
         return self.email
+
+
+class Device(models.Model):
+    user = models.ForeignKey(User, verbose_name=u'Пользователь', related_name='devices')
+    name = models.CharField(verbose_name=u'Имя устройства', max_length=255)
+    unique_id = models.CharField(verbose_name=u'Уникальный ID', max_length=255, unique=True)
+    date_add = models.DateTimeField(verbose_name=u'Дата добавления', default=timezone.now)
+
+    def __unicode__(self):
+        return self.name + ' ' + self.user

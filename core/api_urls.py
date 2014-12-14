@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from core.views import UserList, UserDetail, api_root, CurrentUserView
+from core.views import UserList, UserDetail, api_root, CurrentUserView, DeviceDetail, DeviceList
 from spotit.views import PostList, PostCommentDetail, PostCommentList, PostDetail, PostUserRatingList, \
     PostUserRatingDetail, PostCommentUserRatingList, PostCommentUserRatingDetail, PostPhotoList, PostPhotoDetail
 
@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     url(r'^current-user/$', CurrentUserView.as_view(), name='current-user'),
     url(r'^users/$', UserList.as_view(), name='user-list'),
     url(r'^users/(?P<pk>\d+)/$', UserDetail.as_view(), name='user-detail'),
+    url(r'^devices/$', DeviceList.as_view(), name='device-list'),
+    url(r'^devices/(?P<pk>\d+)/$', DeviceDetail.as_view(), name='device-detail'),
     url(r'^posts/$', PostList.as_view(), name='post-list'),
     url(r'^posts/(?P<pk>\d+)/$', PostDetail.as_view(), name='post-detail'),
     url(r'^posts/comments/$', PostCommentList.as_view(), name='post-comment-list'),

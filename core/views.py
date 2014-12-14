@@ -6,8 +6,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from core.models import User
-from core.serializers import UserSerializer
+from core.models import User, Device
+from core.serializers import UserSerializer, DeviceSerializer
 
 
 @api_view(['GET'])
@@ -16,9 +16,9 @@ def api_root(request, format=None):
     The entry endpoint of our API.
     """
     return Response({
-        # 'current-user': CurrentUserView.as_view(),
         'current-user': reverse('current-user', request=request),
         'users': reverse('user-list', request=request),
+        'devices': reverse('device-list', request=request),
         'posts': reverse('post-list', request=request),
         'posts-photos': reverse('post-photo-list', request=request),
         'posts-comments': reverse('post-comment-list', request=request),
@@ -46,3 +46,16 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     model = User
     serializer_class = UserSerializer
     filter_fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'photo')
+
+
+class DeviceList(generics.ListCreateAPIView):
+    model = Device
+    serializer_class = DeviceSerializer
+    filter_fields = ('id', 'user', 'name', 'unique_id', 'date_add',)
+    ordering_fields = '__all__'
+
+
+class DeviceDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Device
+    serializer_class = DeviceSerializer
+    filter_fields = ('id', 'user', 'name', 'unique_id', 'date_add',)

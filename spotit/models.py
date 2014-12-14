@@ -7,7 +7,7 @@ from core.models import User
 class Post(models.Model):
     author = models.ForeignKey(User, verbose_name=u'Автор', related_name='posts')
     text = models.TextField(verbose_name=u'Текст')
-    date_add = models.DateTimeField(verbose_name=u'Дата создания', default=timezone.now())
+    date_add = models.DateTimeField(verbose_name=u'Дата создания', default=timezone.now)
     author_ip = models.CharField(max_length=255, verbose_name=u'IP автора')
     rating = models.FloatField(default=0, verbose_name=u'Рейтинг')
     count_vote = models.IntegerField(default=0, verbose_name=u'Количество проголосоваваших')
@@ -29,7 +29,7 @@ class Post(models.Model):
 class PostPhoto(models.Model):
     post = models.ForeignKey(Post, verbose_name=u'Пост', related_name='photos')
     image = models.ImageField(verbose_name=u'Картинка', upload_to='post_photos/')
-    date_add = models.DateTimeField(verbose_name=u'Дата создания', default=timezone.now())
+    date_add = models.DateTimeField(verbose_name=u'Дата создания', default=timezone.now)
 
     class Meta:
         verbose_name = u'фото поста'
@@ -46,7 +46,7 @@ class PostComment(models.Model):
     post = models.ForeignKey(Post, verbose_name=u'Пост', related_name='comments')
     author = models.ForeignKey(User, verbose_name=u'Автор', related_name='post_comments')
     text = models.TextField(verbose_name=u'Текст')
-    date_add = models.DateTimeField(verbose_name=u'Дата создания', default=timezone.now())
+    date_add = models.DateTimeField(verbose_name=u'Дата создания', default=timezone.now)
     author_ip = models.CharField(max_length=255, verbose_name=u'IP автора')
     rating = models.FloatField(default=0, verbose_name=u'Рейтинг')
     count_vote = models.IntegerField(default=0, verbose_name=u'Количество проголосоваваших')
