@@ -1,3 +1,4 @@
+from rest_framework import filters
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
@@ -21,6 +22,7 @@ def api_root(request, format=None):
 class UserList(generics.ListCreateAPIView):
     model = User
     serializer_class = UserSerializer
+    # filter_backends = (filters.DjangoFilterBackend,)
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
