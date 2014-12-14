@@ -74,6 +74,7 @@ class PostPhotoSerializer(serializers.HyperlinkedModelSerializer):
 
 class PostUserRatingSerializer(serializers.HyperlinkedModelSerializer):
     post = serializers.PrimaryKeyRelatedField(label=u'Пост')
+    user = serializers.PrimaryKeyRelatedField(label=u'Пользователь')
 
     class Meta:
         model = PostUserRating
@@ -91,6 +92,7 @@ class PostUserRatingSerializer(serializers.HyperlinkedModelSerializer):
 
 class PostCommentUserRatingSerializer(serializers.HyperlinkedModelSerializer):
     post_comment = serializers.PrimaryKeyRelatedField(label=u'Комментарий')
+    user = serializers.PrimaryKeyRelatedField(label=u'Пользователь')
 
     class Meta:
         model = PostCommentUserRating

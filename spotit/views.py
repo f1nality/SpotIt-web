@@ -96,6 +96,7 @@ class PostPhotoDetail(generics.RetrieveUpdateDestroyAPIView):
         'date_add',
     )
 
+
 class PostUserRatingList(generics.ListCreateAPIView):
     model = PostUserRating
     serializer_class = PostUserRatingSerializer
