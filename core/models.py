@@ -14,7 +14,6 @@ class User(AbstractUser):
     sex = models.CharField(blank=True, null=True, max_length=1, verbose_name=u'Пол', choices=SEX_CHOICES)
     phone_number = models.CharField(blank=True, null=True, verbose_name=u'Телефон', max_length=255)
     photo = models.ImageField(verbose_name=u'', upload_to='user_photos/', null=True, blank=True, default=None)
-    device_id = models.CharField(blank=True, null=True, verbose_name=u'Телефон', max_length=255)
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
