@@ -1,5 +1,6 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from push_notifications.gcm import GCMError
 from push_notifications.models import GCMDevice
 from application import settings
 from rest_framework.authtoken.models import Token
@@ -16,7 +17,11 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 def post_comment_post_save(sender, **kwargs):
     if kwargs.get('created'):
         devices = GCMDevice.objects.all()
-        devices.send_message("Happy name day!")
+
+        try:
+            devices.send_message("Happy name day!")
+        except GCMError:
+            pass
 
 
 @receiver(post_save, sender=PostUserRating)
