@@ -18,6 +18,9 @@ def post_comment_post_save(sender, **kwargs):
     if kwargs.get('created'):
         post_comment = kwargs.get('instance')
 
+        post_comment.post.count_comments += 1
+        post_comment.post.save()
+
         if post_comment.author != post_comment.post.author:
             devices_ids = GCMDevice.objects.values('user', 'device_id', 'registration_id').distinct().filter(
                 user__pk=post_comment.post.author.pk
@@ -34,6 +37,13 @@ def post_comment_post_save(sender, **kwargs):
                 })
             except GCMError:
                 pass
+
+@receiver(post_delete, sender=PostComment)
+def post_comment_delete(sender, **kwargs):
+    post_comment = kwargs.get('instance')
+
+    post_comment.post.count_comments -= 1
+    post_comment.post.save()
 
 
 @receiver(post_save, sender=PostUserRating)
