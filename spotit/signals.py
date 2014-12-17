@@ -19,7 +19,9 @@ def post_comment_post_save(sender, **kwargs):
         post_comment = kwargs.get('instance')
 
         if post_comment.author != post_comment.post.author:
-            devices = GCMDevice.objects.filter(user__pk=post_comment.post.author.pk).all()
+            devices = GCMDevice.objects.values('user', 'device_id', 'registration_id').distinct().filter(
+                user__pk=post_comment.post.author.pk
+            ).all()
 
             try:
                 devices.send_message(post_comment.text, extra={
