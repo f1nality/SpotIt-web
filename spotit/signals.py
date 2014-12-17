@@ -16,12 +16,20 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 @receiver(post_save, sender=PostComment)
 def post_comment_post_save(sender, **kwargs):
     if kwargs.get('created'):
-        devices = GCMDevice.objects.all()
+        post_comment = kwargs.get('instance')
 
-        try:
-            devices.send_message("Happy name day!")
-        except GCMError:
-            pass
+        if post_comment.author != post_comment.post.author:
+            devices = GCMDevice.filter(user__pk=post_comment.post.author.pk).objects.all()
+
+            try:
+                devices.send_message(post_comment.text, extra={
+                    'post_id': post_comment.post.pk,
+                    'post_comment_id': post_comment.pk,
+                    'post_comment_author_id': post_comment.author.pk,
+                    'post_comment_author_name': post_comment.author,
+                })
+            except GCMError:
+                pass
 
 
 @receiver(post_save, sender=PostUserRating)
