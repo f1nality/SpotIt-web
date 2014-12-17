@@ -26,7 +26,7 @@ def post_comment_post_save(sender, **kwargs):
                     'post_id': post_comment.post.pk,
                     'post_comment_id': post_comment.pk,
                     'post_comment_author_id': post_comment.author.pk,
-                    'post_comment_author_name': post_comment.author,
+                    'post_comment_author_name': unicode(post_comment.author),
                 })
             except GCMError:
                 pass
