@@ -1,3 +1,4 @@
+import json
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from push_notifications.gcm import GCMError
@@ -5,6 +6,7 @@ from push_notifications.models import GCMDevice
 from application import settings
 from rest_framework.authtoken.models import Token
 from spotit.models import PostUserRating, PostCommentUserRating, PostComment, Post
+from spotit.serializers import PostSerializer
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -33,7 +35,9 @@ def post_post_save(sender, **kwargs):
                 'post_count_comments': post.count_comments,
                 'post_latitude': post.latitude,
                 'post_longitude': post.longitude,
+                'post_json': PostSerializer(post).data
             })
+
         except GCMError:
             pass
 
