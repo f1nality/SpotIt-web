@@ -7,6 +7,7 @@ from application import settings
 from rest_framework.authtoken.models import Token
 from spotit.models import PostUserRating, PostCommentUserRating, PostComment, Post
 from spotit.serializers import PostSerializer
+from rest_framework.renderers import JSONRenderer
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -35,7 +36,7 @@ def post_post_save(sender, **kwargs):
                 'post_count_comments': post.count_comments,
                 'post_latitude': post.latitude,
                 'post_longitude': post.longitude,
-                'post_json': PostSerializer(post).data
+                'post_json': JSONRenderer().render(PostSerializer(post).data)
             })
 
         except GCMError:
