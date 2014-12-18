@@ -36,6 +36,7 @@ class PostCommentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PostComment
         fields = (
+            'id',
             'post',
             'author',
             'text',
