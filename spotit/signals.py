@@ -6,7 +6,7 @@ from push_notifications.models import GCMDevice
 from application import settings
 from rest_framework.authtoken.models import Token
 from spotit.models import PostUserRating, PostCommentUserRating, PostComment, Post
-from spotit.serializers import PostSerializer
+from spotit.serializers import PostSerializer, PostCommentSerializer
 from rest_framework.renderers import JSONRenderer
 
 
@@ -50,6 +50,17 @@ def post_comment_post_save(sender, **kwargs):
 
         post_comment.post.count_comments += 1
         post_comment.post.save()
+
+        devices_ids = GCMDevice.objects.values('user', 'device_id', 'registration_id').distinct().values('pk').all()
+        devices = GCMDevice.objects.filter(pk__in=devices_ids).all()
+
+        try:
+            devices.send_message('post_comment_save', extra={
+                'post_comment_json': JSONRenderer().render(PostCommentSerializer(post_comment).data)
+            })
+
+        except GCMError:
+            pass
 
         if post_comment.author != post_comment.post.author:
             devices_ids = GCMDevice.objects.values('user', 'device_id', 'registration_id').distinct().filter(
