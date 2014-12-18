@@ -4,13 +4,38 @@ from push_notifications.gcm import GCMError
 from push_notifications.models import GCMDevice
 from application import settings
 from rest_framework.authtoken.models import Token
-from spotit.models import PostUserRating, PostCommentUserRating, PostComment
+from spotit.models import PostUserRating, PostCommentUserRating, PostComment, Post
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+@receiver(post_save, sender=Post)
+def post_post_save(sender, **kwargs):
+    if kwargs.get('created'):
+        post = kwargs.get('instance')
+
+        devices_ids = GCMDevice.objects.values('user', 'device_id', 'registration_id').distinct().values('pk').all()
+        devices = GCMDevice.objects.filter(pk__in=devices_ids).all()
+
+        try:
+            devices.send_message('post_save', extra={
+                'post_id': post.pk,
+                'post_author_id': post.author,
+                'post_text': post.text,
+                'post_date_add': str(post.date_add),
+                'post_author_ip': post.author_ip,
+                'post_rating': post.rating,
+                'post_count_vote': post.count_vote,
+                'post_count_comments': post.count_comments,
+                'post_latitude': post.count_comments,
+                'post_longitude': post.count_comments,
+            })
+        except GCMError:
+            pass
 
 
 @receiver(post_save, sender=PostComment)
@@ -29,7 +54,7 @@ def post_comment_post_save(sender, **kwargs):
             devices = GCMDevice.objects.filter(pk__in=devices_ids).all()
 
             try:
-                devices.send_message(post_comment.text, extra={
+                devices.send_message('new_answer_comment', extra={
                     'post_id': post_comment.post.pk,
                     'post_comment_id': post_comment.pk,
                     'post_comment_author_id': post_comment.author.pk,
