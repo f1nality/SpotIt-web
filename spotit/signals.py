@@ -24,15 +24,15 @@ def post_post_save(sender, **kwargs):
         try:
             devices.send_message('post_save', extra={
                 'post_id': post.pk,
-                'post_author_id': post.author,
+                'post_author_id': post.author.pk,
                 'post_text': post.text,
                 'post_date_add': str(post.date_add),
                 'post_author_ip': post.author_ip,
                 'post_rating': post.rating,
                 'post_count_vote': post.count_vote,
                 'post_count_comments': post.count_comments,
-                'post_latitude': post.count_comments,
-                'post_longitude': post.count_comments,
+                'post_latitude': post.latitude,
+                'post_longitude': post.longitude,
             })
         except GCMError:
             pass
