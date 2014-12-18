@@ -57,6 +57,7 @@ def post_comment_post_save(sender, **kwargs):
                 devices.send_message('new_answer_comment', extra={
                     'post_id': post_comment.post.pk,
                     'post_comment_id': post_comment.pk,
+                    'post_comment_text': post_comment.text,
                     'post_comment_author_id': post_comment.author.pk,
                     'post_comment_author_name': unicode(post_comment.author),
                 })
